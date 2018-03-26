@@ -39,9 +39,13 @@ describe OnTheFlyCalc do
     end
   end
   describe '#compute_avg_and_ranges_hash' do
+    before(:each) do
+      allow(ReviewResponseMAp).to receive(:get_assessments_for).with(contributor)
+      allow(Answer).to receive(:compute_scores).with(assessments, questions)
+    end
     it 'for varying_rubrics_by_round case' do
       expect(assignment.contributors).to eq(team)
-
+      allow(Question).to receive(:where).with('questionnaire_id = ?', review_questionnaire_id).and_return(question)
     end
     it 'for non-varying_rubrics_by_round case' do
       expect(assignment2.contributors).to eq(team2)
